@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>For Tanishuu — Happy Birthday</title>
+  <style>
+    :root{
+      --pink-1: #ffd7e6;
+      --pink-2: #ffb6d2;
+      --accent: #ff8fb1;
+      --muted: #6b5868;
+      --white: #ffffff;
+      --card-shadow: 0 8px 30px rgba(203, 79, 127, 0.12);
+      --glass: rgba(255,255,255,0.6);
+    }
+    html,body{height:100%;margin:0;font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; background: linear-gradient(180deg, var(--pink-1) 0%, var(--pink-2) 100%);}
+    .wrap{max-width:980px;margin:36px auto;padding:28px;border-radius:18px;background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.85));box-shadow: var(--card-shadow);position:relative;overflow:hidden;}
+    header{display:flex;align-items:center;gap:18px}
+    .heart{
+      width:84px;height:84px;border-radius:14px;background:linear-gradient(135deg,#ff9ec9,#ff7fb4);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:36px;box-shadow: 0 6px 18px rgba(255,127,180,0.18);
+    }
+    h1{margin:0;font-size:32px;color:#5a2b40;line-height:1}
+    h2{margin:4px 0 0;font-size:16px;color:var(--muted);font-weight:500}
+    .hero-note{margin-top:12px;color:#6f475f;font-size:15px}
+    .section{margin-top:22px;padding:16px;border-radius:12px;background: linear-gradient(180deg, rgba(255,255,255,0.5), rgba(255,255,255,0.45));}
+    .flex{display:flex;gap:12px;flex-wrap:wrap}
+    .col{flex:1;min-width:260px}
+    .reasons li{margin:8px 0;padding-left:10px;color:#5b3649}
+    .reasons li::marker{color:var(--accent)}
+    .sp-player{border-radius:10px;overflow:hidden;border:1px solid rgba(120,40,80,0.06);box-shadow:0 6px 18px rgba(120,40,80,0.06);width:100%;height:80px}
+    .players{display:flex;gap:12px;overflow-x:auto;padding-bottom:12px}
+    .players iframe{border-radius:8px}
+    .photo-box{display:flex;flex-direction:column;align-items:center;gap:12px}
+    .slideshow{width:100%;height:260px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.6));display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;border:1px dashed rgba(160,80,120,0.12)}
+    .slideshow img{max-width:100%;max-height:100%;object-fit:cover;display:block}
+    .controls{display:flex;gap:8px;align-items:center}
+    .btn{background:var(--accent);border:none;color:white;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:600;box-shadow:0 8px 18px rgba(255,127,180,0.12)}
+    .btn.soft{background:transparent;color:#6b4358;border:1px solid rgba(120,40,80,0.06)}
+    .small{padding:8px 10px;font-size:14px}
+    footer{margin-top:18px;text-align:right;color:#6b4358;font-size:14px}
+    .signature{font-weight:700;color:#4a2638;font-size:16px}
+    .confetti-canvas{position:fixed;left:0;top:0;pointer-events:none;z-index:9999}
+    /* overlay (passphrase) */
+    #gate{position:fixed;inset:0;background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,245,248,0.95));display:flex;align-items:center;justify-content:center;z-index:10000}
+    .gate-card{width:92%;max-width:520px;padding:28px;border-radius:16px;text-align:center;background:linear-gradient(180deg,var(--white),rgba(255,255,255,0.9));box-shadow:0 18px 40px rgba(140,60,100,0.12)}
+    .gate-input{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(120,40,80,0.1);margin-top:12px;font-size:16px}
+    .error{color:#b9465a;margin-top:10px;display:none}
+    /* printable card */
+    @media print{
+      body *{visibility:hidden}
+      #print-card, #print-card *{visibility:visible}
+      #print-card{position:fixed;left:0;top:0;width:100%}
+    }
+    /* small screens */
+    @media (max-width:520px){
+      .hero-note{font-size:14px}
+      .slideshow{height:200px}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="confetti" class="confetti-canvas"></canvas>
+
+  <div class="wrap" id="mainContent" aria-hidden="true">
+    <header>
+      <div class="heart">T♥</div>
+      <div>
+        <h1>Happy Birthday, Tanisha</h1>
+        <h2>Tanishuu — my love, my light</h2>
+        <div class="hero-note">I made this little surprise for you — open your songs, add photos, and read the reasons I love you. — Love, Rafay</div>
+      </div>
+    </header>
+
+    <div class="section flex" style="align-items:flex-start">
+      <div class="col">
+        <h3 style="margin:0 0 8px 0;color:#6b4358">A playlist for your heart</h3>
+        <div class="players" id="players">
+          <!-- Spotify embeds -->
+          <iframe class="sp-player" src="https://open.spotify.com/embed/track/3hB9lDLyAClYVZivMMl20N" width="300" height="80" frameborder="0" allow="encrypted-media; clipboard-write"></iframe>
+          <iframe class="sp-player" src="https://open.spotify.com/embed/track/6fqbblMIytVYfUn8ra4bdV" width="300" height="80" frameborder="0" allow="encrypted-media; clipboard-write"></iframe>
+          <iframe class="sp-player" src="https://open.spotify.com/embed/track/6A6il0xlgnUK3LCxCcHZRA" width="300" height="80" frameborder="0" allow="encrypted-media; clipboard-write"></iframe>
+          <iframe class="sp-player" src="https://open.spotify.com/embed/track/6wfb4nI2Vih263JqC8WSoW" width="300" height="80" frameborder="0" allow="encrypted-media; clipboard-write"></iframe>
+          <iframe class="sp-player" src="https://open.spotify.com/embed/track/1oAwsWBovWRIp7qLMGPIet" width="300" height="80" frameborder="0" allow="encrypted-media; clipboard-write"></iframe>
+        </div>
+
+        <div style="margin-top:12px;">
+          <button class="btn small" id="playAllBtn">Open playlist in Spotify</button>
+          <button class="btn soft small" id="downloadBtn">Download page (Save as)</button>
+        </div>
+      </div>
+
+      <div class="col photo-box">
+        <h3 style="margin:0 0 8px 0;color:#6b4358">Photos (add yours)</h3>
+        <div class="slideshow" id="slideshow">
+          <div id="placeholder" style="text-align:center;color:#8d5672;padding:20px;">
+            <div style="font-size:20px;font-weight:700">Add your photos</div>
+            <div style="margin-top:8px;color:#8d5672">Click "Add photos" to upload images from your device</div>
+          </div>
+          <img id="slideImg" src="" alt="" style="display:none">
+        </div>
+
+        <div class="controls" style="margin-top:8px">
+          <input id="fileInput" type="file" accept="image/*" multiple style="display:none">
+          <button class="btn small" id="addPhotosBtn">Add photos</button>
+          <button class="btn soft small" id="prevBtn">Prev</button>
+          <button class="btn soft small" id="nextBtn">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="margin-top:18px">
+      <h3 style="margin:0 0 10px 0;color:#6b4358">Reasons I love you</h3>
+      <ul class="reasons">
+        <li>We've been together for 2 years now — now on our third, and every day with you feels new.</li>
+        <li>I love you because of how kind you are — you give softly and beautifully to everyone.</li>
+        <li>You’ve been my everything; you’ve been there for me at my lowest every time.</li>
+        <li>You are my reason and my whole purpose to live — my center and my courage.</li>
+        <li>You’re the reason for my happiness — I smile because of you.</li>
+      </ul>
+    </div>
+
+    <div class="section" style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;flex-wrap:wrap">
+      <div>
+        <h3 style="margin:0;color:#6b4358">A small printable card</h3>
+        <div style="color:#7a4961;margin-top:8px">Open the card and click Print or Save as PDF.</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn" id="printBtn">Print Card</button>
+        <button class="btn soft" id="toggleNotes">Edit message later</button>
+      </div>
+    </div>
+
+    <footer>
+      <div class="signature">from Rafay idriss, your love</div>
+    </footer>
+  </div>
+
+  <!-- Printable card content (hidden on screen) -->
+  <div id="print-card" style="display:none;padding:36px;background:white;border-radius:12px;max-width:720px;margin:24px auto;">
+    <div style="text-align:center;padding:24px;border-radius:10px;background:linear-gradient(180deg,#fff0f6,#fff2f8);">
+      <h1 style="color:#633049;margin-bottom:6px">Happy Birthday, Tanisha</h1>
+      <p style="color:#6b4358;font-size:18px;margin:6px 0 18px">Tanishuu — to the one who lights my life,</p>
+      <p style="color:#5b3649;font-size:16px;line-height:1.5;margin:0 0 12px">
+        We've been together for 2 years and now on our third — you are kind, gentle, and the reason I live. You held me up at my lowest and filled my life with joy. I love you with everything I am.
+      </p>
+      <div style="margin-top:18px;font-weight:700;color:#4a2638">from Rafay idriss, your love</div>
+    </div>
+  </div>
+
+  <!-- Passphrase gate -->
+  <div id="gate" role="dialog" aria-modal="true">
+    <div class="gate-card">
+      <div style="font-size:22px;font-weight:800;color:#5b2b3f">A little surprise for Tanishuu</div>
+      <p style="color:#6b4358;margin-top:8px">This is private. Please enter the secret to open it.</p>
+      <input id="pass" class="gate-input" placeholder="Enter the secret passphrase" autocomplete="off">
+      <div style="display:flex;gap:8px;margin-top:12px;justify-content:center">
+        <button id="openBtn" class="btn small">Open</button>
+        <button id="hintBtn" class="btn soft small">Hint</button>
+      </div>
+      <div id="err" class="error">Wrong passphrase — try again.</div>
+      <div style="margin-top:10px;color:#8d5672;font-size:13px">Passing the secret will show the surprise. (Client-side protection — keep the passphrase to yourself.)</div>
+    </div>
+  </div>
+
+  <script>
+    // ========== Configuration ==========
+    const SECRET = "iloveyou1823"; // passphrase set for this page (client-side)
+    const senderName = "from Rafay idriss, your love";
+    // ========== Gate logic ==========
+    const gate = document.getElementById('gate');
+    const passInput = document.getElementById('pass');
+    const openBtn = document.getElementById('openBtn');
+    const err = document.getElementById('err');
+    const hintBtn = document.getElementById('hintBtn');
+    openBtn.addEventListener('click', tryUnlock);
+    passInput.addEventListener('keyup', (e)=>{ if(e.key === "Enter") tryUnlock(); });
+    hintBtn.addEventListener('click', ()=> alert("Hint: It's three words + numbers meaningful to someone who loves you."));
+    function tryUnlock(){
+      const val = passInput.value.trim();
+      if(val === SECRET){
+        err.style.display = 'none';
+        unlock();
+      } else {
+        err.style.display = 'block';
+        passInput.classList.add('shake');
+        setTimeout(()=>passInput.classList.remove('shake'),300);
+      }
+    }
+    function unlock(){
+      // reveal content
+      gate.style.transition = 'opacity 400ms ease';
+      gate.style.opacity = '0';
+      setTimeout(()=>{ gate.style.display = 'none'; },420);
+      document.getElementById('mainContent').setAttribute('aria-hidden','false');
+      // confetti
+      fireConfetti();
+    }
+
+    // ========== Confetti (simple) ==========
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let confettiPieces = [];
+    function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    function rand(min,max){ return Math.random()*(max-min)+min; }
+    function createConfetti(){
+      confettiPieces = [];
+      const colors = ['#ff7fb4','#ffd1e6','#ff9ec9','#ffb3d2','#ffd7e6'];
+      for(let i=0;i<120;i++){
+        confettiPieces.push({
+          x: rand(0,canvas.width),
+          y: rand(-canvas.height,0),
+          r: rand(6,12),
+          d: rand(10,30),
+          color: colors[Math.floor(rand(0,colors.length))],
+          tilt: rand(-10,10),
+          tiltSpeed: rand(0.05,0.12),
+          vx: rand(-0.6,0.6),
+          vy: rand(1,3)
+        });
+      }
+    }
+    function drawConfetti(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      for(let p of confettiPieces){
+        ctx.save();
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.ellipse(p.x, p.y, p.r, p.r*0.6, p.tilt*0.02, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+    function updateConfetti(){
+      for(let p of confettiPieces){
+        p.x += p.vx;
+        p.y += p.vy + Math.sin(p.d)*0.3;
+        p.tilt += p.tiltSpeed;
+        if(p.y > canvas.height + 20){ p.y = rand(-40, -10); p.x = rand(0,canvas.width); }
+      }
+    }
+    let confettiActive = false;
+    function animate(){
+      if(confettiActive){
+        updateConfetti();
+        drawConfetti();
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+    function fireConfetti(){
+      createConfetti();
+      confettiActive = true;
+      setTimeout(()=>{ confettiActive = false; ctx.clearRect(0,0,canvas.width,canvas.height); }, 7000);
+    }
+
+    // ========== Photo upload & slideshow ==========
+    const fileInput = document.getElementById('fileInput');
+    const addPhotosBtn = document.getElementById('addPhotosBtn');
+    const slideImg = document.getElementById('slideImg');
+    const slideshow = document.getElementById('slideshow');
+    const placeholder = document.getElementById('placeholder');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let images = [];
+    let current = 0;
+
+    addPhotosBtn.addEventListener('click', ()=>fileInput.click());
+    fileInput.addEventListener('change', handleFiles);
+    prevBtn.addEventListener('click', ()=>{ if(images.length){ current = (current-1+images.length)%images.length; showCurrent(); }});
+    nextBtn.addEventListener('click', ()=>{ if(images.length){ current = (current+1)%images.length; showCurrent(); }});
+
+    function handleFiles(e){
+      const files = Array.from(e.target.files).filter(f=>f.type.startsWith('image/'));
+      if(!files.length) return;
+      images = [];
+      const readers = files.map(file => {
+        return new Promise(resolve => {
+          const reader = new FileReader();
+          reader.onload = ev => resolve(ev.target.result);
+          reader.readAsDataURL(file);
+        });
+      });
+      Promise.all(readers).then(results=>{
+        images = results;
+        current = 0;
+        showCurrent();
+      });
+    }
+    function showCurrent(){
+      if(images.length){
+        slideImg.src = images[current];
+        slideImg.style.display = 'block';
+        placeholder.style.display = 'none';
+      } else {
+        slideImg.style.display = 'none';
+        placeholder.style.display = 'block';
+      }
+    }
+
+    // ========== Print card ==========
+    const printBtn = document.getElementById('printBtn');
+    printBtn.addEventListener('click', ()=>{
+      // populate print-card content (optional dynamic updates)
+      document.getElementById('print-card').style.display = 'block';
+      window.print();
+      setTimeout(()=>{ document.getElementById('print-card').style.display = 'none'; }, 500);
+    });
+
+    // ========== Play All / Download ==========
+    document.getElementById('playAllBtn').addEventListener('click', ()=>{
+      // open a Spotify playlist URL with the first track (user can open all on Spotify)
+      window.open('https://open.spotify.com/track/3hB9lDLyAClYVZivMMl20N', '_blank');
+    });
+    document.getElementById('downloadBtn').addEventListener('click', ()=>{
+      alert('To save this page: choose File → Save As in your browser and save as "index.html". Then send that file to Tanisha. She can open it locally in a browser.');
+    });
+
+    // ========== Small UX tweaks ==========
+    // Make signature show the senderName variable if needed
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const sig = document.querySelector('.signature');
+      if(sig) sig.textContent = senderName;
+    });
+
+    // Make sure main content is hidden for screen readers until unlocked
+    document.getElementById('mainContent').setAttribute('aria-hidden','true');
+
+    // Optional: prevent accidental copy of secret by disabling context on pass field
+    passInput.addEventListener('contextmenu', (e)=>{ e.preventDefault(); });
+
+    // Small style animation for wrong input
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .gate-input.shake{animation:shake 0.28s}
+      @keyframes shake{
+        0%{transform:translateX(0)}
+        20%{transform:translateX(-6px)}
+        40%{transform:translateX(6px)}
+        60%{transform:translateX(-4px)}
+        80%{transform:translateX(4px)}
+        100%{transform:translateX(0)}
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Accessibility: focus the input
+    passInput.focus();
+  </script>
+</body>
+</html>
